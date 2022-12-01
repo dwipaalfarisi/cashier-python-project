@@ -31,13 +31,19 @@ def confirm_payment(database: SendToDatabasePostgreSQL) -> None:
         database (SendToDatabasePostgreSQL): Instantiate the class to access csv_to_postgresql method
     """
     print("Confirm transaction?")
-    choice = str(input("(y/n): "))
-    if choice.lower() == "y":
+    choice = input("Enter 'y' to confirm or 'n' to cancel: ")
+
+    # validate user input
+    # Check if the user's input is valid
+    if choice.lower() not in ("y", "n"):
+        # If the input is invalid, display an error message and call the function again
+        print("Invalid input. Please try again.")
+        confirm_payment(database)
+    elif choice.lower() == "y":
+        # If the input is 'y', load the staging file to PostgreSQL
         database.csv_to_postgresql()
-    elif choice.lower() == "n":
-        main_menu()
     else:
-        print("Wrong input.")
+        # If the input is 'n', return to the main menu
         main_menu()
 
 
@@ -87,6 +93,7 @@ def main_menu() -> None:
     selected_function = menu_options.get(select)
 
     # Check for special cases where the selected function is not in the menu_options dictionary
+    # not included in the menu_options cause we need to reset the transaction before closing the app
     if select == "10":
         transact_123.reset_transaction(ReadAndWrite())
         exit_application()
