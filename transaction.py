@@ -137,7 +137,7 @@ class Transaction:
         return False
 
     def add_item(self, target: ReadAndWrite, choice: Choice) -> None:
-        """_summary_
+        """Add item to the staging file
 
         Args:
             target (ReadAndWrite): Instantiate ReadAndWrite class to access write_values (adding new items to the staging file)
