@@ -104,7 +104,7 @@ class Transaction:
         # this would cause FutureWarning
         # condition = name in df.item_name.values
 
-        # this is more readable and would not cause FutureWarning
+        # this is more readable and would not cause FutureWarning as it won't do operands comparison
         return df.item_name.eq(name).any()
 
     def product_not_exists(self, name: str) -> bool:
