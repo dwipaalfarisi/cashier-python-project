@@ -8,19 +8,6 @@ class ReadAndWrite:
     def __init__(self):
         self.file_path = "./transaction-staging.csv"
 
-    # def read(self) -> None:
-
-    #     file_path = self.file_path
-    #     try:
-    #         with open(file_path, "r", encoding="utf-8") as file_object:
-    #             csv_reader = reader(file_object)
-    #             for lines in csv_reader:
-    #                 print(lines)
-    #     except FileNotFoundError:
-    #         print("File Not found.")
-    #     except Exception:
-    #         print("Unexpected error.")
-
     def write_header(self) -> None:
         """Write CSV header, create a new CSV file if not exists
         Usage:
