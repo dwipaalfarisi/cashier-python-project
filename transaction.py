@@ -1,14 +1,5 @@
-# from dataclasses import dataclass
 import pandas as pd
 from database import ReadAndWrite
-
-
-# @dataclass
-# class Product:
-
-#     name: str
-#     quantity: int  # if we sell in grams, then this is not a good representation
-#     price: float
 
 
 class Choice:
