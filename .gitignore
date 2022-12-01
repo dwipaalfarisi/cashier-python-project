@@ -1,0 +1,11 @@
+/note.md
+.vscode/
+app_env/
+/.python-version
+/test.py
+__pycache__/
+/db_variables.py
+/gpt-chat.py
+/transaction-staging.csv
+/test-csv.py
+/test.ipynb
