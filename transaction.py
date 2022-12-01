@@ -3,6 +3,8 @@ from database import ReadAndWrite
 
 
 class Choice:
+    """A class related to user input"""
+
     def is_string(self, value) -> bool:
         result = isinstance(value, str)
         return result
@@ -125,7 +127,10 @@ class Transaction:
             bool: True if the product name not in the staging file, False otherwise
         """
         df = self.read_csv()
-        condition = name not in df.item_name.values
+
+        # NOTE:  FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+        # not in expect the left and right operands to be the same type. Using astype would eliminate this issue
+        condition = name not in df.item_name.values.astype(str)
         if condition:
             return True
         print("No changes made. The item is already exist.")
@@ -219,7 +224,7 @@ class Transaction:
         if not_empty:
             df = self.read_csv()
             name = choice.name_input()
-            condition = df["item_name"] != name
+            condition = df["item_name"] != str(name)
             df_after = df[condition]
             self.to_csv(df_after)
         else:
