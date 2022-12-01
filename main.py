@@ -96,10 +96,11 @@ def main_menu() -> None:
     # Call the selected function if it exists, passing any necessary arguments
     else:
         if select in ("1"):
+            # Menu option 1 requires the ReadAndWrite and Choice classes as parameters
             selected_function(ReadAndWrite(), Choice())
             main_menu()
         elif select in ("6"):
-            # Menu options 1 and 6 require the ReadAndWrite class as a parameter
+            # Menu options 6 requires the ReadAndWrite class as a parameter
             selected_function(ReadAndWrite())
             main_menu()
         elif select in ("7", "8"):
