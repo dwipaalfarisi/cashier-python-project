@@ -1,5 +1,5 @@
 # Exit the app using main_menu with input 11
-from sys import exit as exit_application
+from sys import exit as close_app
 from transaction import Transaction, Choice
 from database import ReadAndWrite, SendToDatabasePostgreSQL
 
@@ -45,6 +45,7 @@ def main_menu() -> None:
     """Control the user flow"""
 
     transact_123 = create_transaction()
+    choices = create_choice()
 
     print("-" * 20)
     print("SELF SERVICE CASHIER")
@@ -66,53 +67,61 @@ def main_menu() -> None:
     print("-" * 20)
 
     select = str(input("Enter task No. : "))
-    if not select.isdigit() or not 1 <= int(select) <= 10:
+
+    try:
+        if select == "1":
+            print("No 1 selected")
+            transact_123.add_item(ReadAndWrite(), Choice())
+
+        elif select == "2":
+            print("No 2 selected")
+            transact_123.update_name(Choice())
+
+        elif select == "3":
+            print("No 3 selected")
+            transact_123.update_quantity(Choice())
+
+        elif select == "4":
+            print("No 4 selected")
+            transact_123.update_price(Choice())
+
+        elif select == "5":
+            print("No 5 selected")
+            transact_123.remove_item(choice=Choice())
+
+        elif select == "6":
+            print("No 6 selected")
+            transact_123.reset_transaction(ReadAndWrite())
+
+        elif select == "7":
+            print("No 7 selected")
+            transact_123.check_order()
+
+        elif select == "8":
+            transact_123.total_price()
+            print("No 8 selected")
+
+        elif select == "9":
+            print("No 9 selected")
+            confirm_payment(SendToDatabasePostgreSQL())
+            print("Confirmed.")
+
+        elif select == "10":
+            transact_123.reset_transaction(ReadAndWrite())
+            print("Bye.")
+            close_app()
+
+        else:
+            print("Wrong input. Try 1-10.\n")
+            main_menu()
+
+        main_menu()
+    except ValueError:
         print("Wrong input. Try 1-10.\n")
         main_menu()
-
-    # Define a dictionary with menu options as keys and functions as values
-    menu_options = {
-        "1": transact_123.add_item,
-        "2": transact_123.update_name,
-        "3": transact_123.update_quantity,
-        "4": transact_123.update_price,
-        "5": transact_123.remove_item,
-        "6": transact_123.reset_transaction,
-        "7": transact_123.check_order,
-        "8": transact_123.total_price,
-        "9": confirm_payment,
-    }
-
-    # Use the `get` method to get the function associated with the selected menu option
-    selected_function = menu_options.get(select)
-
-    # Check for special cases where the selected function is not in the menu_options dictionary
-    if select == "10":
-        transact_123.reset_transaction(ReadAndWrite())
-        exit_application()
-    elif not selected_function:
-        print("Invalid menu option. Please try again.")
-
-    # Call the selected function if it exists, passing any necessary arguments
-    else:
-        if select in ("1"):
-            selected_function(ReadAndWrite(), Choice())
-            main_menu()
-        elif select in ("6"):
-            # Menu options 1 and 6 require the ReadAndWrite class as a parameter
-            selected_function(ReadAndWrite())
-            main_menu()
-        elif select in ("7", "8"):
-            selected_function()
-            main_menu()
-        elif select == "9":
-            # Menu option 9 requires the SendToDatabasePostgreSQL class as a parameter
-            selected_function(SendToDatabasePostgreSQL())
-            main_menu()
-        else:
-            # All other menu options require the Choice class as a parameter
-            selected_function(Choice())
-            main_menu()
+    except Exception:
+        print("Unexpected error. It's us, not you.\n")
+        main_menu()
 
 
 def main() -> None:
