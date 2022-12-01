@@ -101,11 +101,11 @@ class Transaction:
             bool: True if the product name is already in the staging file, False otherwise
         """
         df = self.read_csv()
-        condition = name in df.item_name.values
-        if condition:
-            return True
-        print("No changes made. Item does not exist.")
-        return False
+        # this would cause FutureWarning
+        # condition = name in df.item_name.values
+
+        # this is more readable and would not cause FutureWarning
+        return df.item_name.eq(name).any()
 
     def product_not_exists(self, name: str) -> bool:
         """Check if the name of a product not in the staging file
