@@ -1,10 +1,12 @@
 # To write the staging file
-from csv import DictWriter, writer, Sniffer
+from csv import DictWriter, writer
 import psycopg2
 import db_variables
 
 
 class ReadAndWrite:
+    """A class for reading, writing header, and values to the staging file."""
+
     def __init__(self):
         self.file_path = "./transaction-staging.csv"
 
