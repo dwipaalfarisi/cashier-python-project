@@ -44,8 +44,6 @@ def confirm_payment(database: SendToDatabasePostgreSQL) -> None:
 def main_menu() -> None:
     """Control the user flow"""
 
-    transact_123 = create_transaction()
-
     print("-" * 20)
     print("SELF SERVICE CASHIER")
     print("-" * 20)
@@ -64,6 +62,8 @@ def main_menu() -> None:
         """
     )
     print("-" * 20)
+
+    transact_123 = create_transaction()
 
     select = str(input("Enter task No. : "))
     if not select.isdigit() or not 1 <= int(select) <= 10:
