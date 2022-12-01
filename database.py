@@ -1,5 +1,5 @@
 # To write the staging file
-from csv import DictWriter, writer
+from csv import DictWriter, writer, Sniffer
 import psycopg2
 import db_variables
 
@@ -13,16 +13,20 @@ class ReadAndWrite:
         Usage:
             reset_transaction and create the staging file
         """
-        file_path = "./transaction-staging.csv"
+        file_path = self.file_path
         header = ["item_name", "item_quantity", "item_price"]
         try:
             with open(file_path, "w+", encoding="utf-8", newline="") as file_object:
                 dict_writer = DictWriter(file_object, fieldnames=header)
                 dict_writer.writeheader()
         except FileNotFoundError:
-            print("File Not found.")
-        except Exception:
-            print("Unexpected error.")
+            print("The file was not found. Please check the file path and try again.")
+        except PermissionError:
+            print(
+                "You do not have permission to write to the file. Please check your permissions and try again."
+            )
+        except Exception as error:
+            print(f"An unexpected error occurred: {error}")
 
     def write_values(self, row_values: list[str, int, float]):
         """Write the transaction records
@@ -38,9 +42,13 @@ class ReadAndWrite:
                 writer_object.writerow(row_values)
                 print("Successfully write values to the staging file")
         except FileNotFoundError:
-            print("File Not found.")
-        except Exception:
-            print("Unexpected error.")
+            print("The file was not found. Please check the file path and try again.")
+        except PermissionError:
+            print(
+                "You do not have permission to write to the file. Please check your permissions and try again."
+            )
+        except Exception as error:
+            print(f"An unexpected error occurred: {error}")
 
 
 class SendToDatabasePostgreSQL:
