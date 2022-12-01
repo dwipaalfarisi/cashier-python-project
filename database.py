@@ -77,7 +77,20 @@ class SendToDatabasePostgreSQL:
                 port=db_variables.PORT,
                 database=db_variables.DATABASE,
             )
+
+        except psycopg2.Error as error:
+            print("Failed to establish connection to the database", error)
+            return
+
+        try:
             cursor = connection.cursor()
+
+        except psycopg2.Error as error:
+            print("Failed to create cursor:", error)
+            connection.close()
+            return
+
+        try:
             with open(file_path, "r", encoding="utf-8") as file_object:
                 next(file_object)
                 cursor.copy_from(
@@ -90,10 +103,21 @@ class SendToDatabasePostgreSQL:
             connection.commit()
             print("Record inserted successfully into transaction history table.")
 
-        except (Exception, psycopg2.Error) as error:
+        except FileNotFoundError as error:
+            print("The File was not found:", error)
+            connection.rollback()
+            return
+
+        except psycopg2.DataError as error:
+            print("The data in the file is not in the expected format:", error)
+            connection.rollback()
+            return
+
+        except psycopg2.Error as error:
             # try to catch a more specific exceptions
             connection.rollback()
             print("Failed to insert record into transaction history table.", error)
+            return
 
         finally:
             if connection:
