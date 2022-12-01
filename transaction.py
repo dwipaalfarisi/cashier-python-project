@@ -5,14 +5,6 @@ from database import ReadAndWrite
 class Choice:
     """A class related to user input"""
 
-    def is_integer(self, value) -> bool:
-        result = isinstance(value, int)
-        return result
-
-    def is_float(self, value) -> bool:
-        result = isinstance(value, float)
-        return result
-
     def name_input(self) -> str:
         while True:
             try:
