@@ -124,7 +124,6 @@ class Transaction:
         condition = name not in df.item_name.values.astype(str)
         if condition:
             return True
-        print("No changes made. The item is already exist.")
         return False
 
     def add_item(self, target: ReadAndWrite, choice: Choice) -> None:
@@ -140,7 +139,7 @@ class Transaction:
             target.write_values(item)
             print("Added")
         else:
-            print("Not added")
+            print("No changes made. The item is already exist.")
 
     def check_product_list(self) -> bool:
         """Check if the staging file is not empty
