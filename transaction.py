@@ -144,20 +144,20 @@ class Transaction:
         else:
             print("No changes made. The item is already exist.")
 
-    def check_product_list(self) -> bool:
+    def check_product_list(self, df: pd.DataFrame) -> bool:
         """Check if the staging file is not empty
 
         Returns:
             bool: True if the staging file is not empty, False otherwise
         """
-        return len(self.read_csv()) > 0
+        return df.item_name.notnull().any()
 
     def check_order(self) -> None:
         """Show the transaction order to the user by reading the staging file"""
-        not_empty = self.check_product_list()
+        df = self.read_csv()
+        not_empty = self.check_product_list(df)
         if not_empty:
             # import and drop nulls
-            df = self.read_csv()
             self.drop_nulls(df)
             # display basket
             with pd.option_context(
@@ -193,10 +193,10 @@ class Transaction:
 
     def total_price(self) -> None:
         """Show the total price to the user"""
-        not_empty = self.check_product_list()
+        df = self.read_csv()
+        not_empty = self.check_product_list(df)
         if not_empty:
             # import and drop nulls
-            df = self.read_csv()
             self.drop_nulls(df)
             # calculate
             total_payment = (df.item_quantity * df.item_price).sum()
@@ -213,9 +213,9 @@ class Transaction:
         Args:
             choice (Choice): Instantiate Choice class to access name_input (user transaction input)
         """
-        not_empty = self.check_product_list()
+        df = self.read_csv()
+        not_empty = self.check_product_list(df)
         if not_empty:
-            df = self.read_csv()
             name = choice.name_input()
             condition = df["item_name"] != str(name)
             df_after = df[condition]
@@ -260,12 +260,12 @@ class Transaction:
         Args:
             choice (Choice): Instantiate Choice class to access choice_update_item_name (user transaction input)
         """
+        df = self.read_csv()
         name_list = choice.choice_update_item_name()
-        not_empty = self.check_product_list()
+        not_empty = self.check_product_list(df)
         product_exists = self.product_exists(name_list[0])
 
         if not_empty and product_exists:
-            df = self.read_csv()
             df_after = self.update_value(
                 df=df, col="item_name", old_value=name_list[0], new_value=name_list[1]
             )
@@ -279,12 +279,12 @@ class Transaction:
         Args:
             choice (Choice): Instantiate Choice class to access choice_update_item_quantity (user transaction input)
         """
+        df = self.read_csv()
         value_list = choice.choice_update_item_quantity()
-        not_empty = self.check_product_list()
+        not_empty = self.check_product_list(df)
         product_exists = self.product_exists(value_list[0])
 
         if not_empty and product_exists:
-            df = self.read_csv()
             condition = df.item_name == value_list[0]
             # replace
             df.loc[condition, "item_quantity"] = value_list[1]
@@ -299,12 +299,12 @@ class Transaction:
         Args:
             choice (Choice): Instantiate Choice class to access choice_update_item_price (user transaction input)
         """
+        df = self.read_csv()
         value_list = choice.choice_update_item_price()
-        not_empty = self.check_product_list()
+        not_empty = self.check_product_list(df)
         product_exists = self.product_exists(value_list[0])
 
         if not_empty and product_exists:
-            df = self.read_csv()
             condition = df.item_name == value_list[0]
             # replace
             df.loc[condition, "item_price"] = value_list[1]
