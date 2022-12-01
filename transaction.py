@@ -117,14 +117,17 @@ class Transaction:
         Returns:
             bool: True if the product name not in the staging file, False otherwise
         """
-        df = self.read_csv()
+        # df = self.read_csv()
 
         # NOTE:  FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
         # not in expect the left and right operands to be the same type. Using astype would eliminate this issue
-        condition = name not in df.item_name.values.astype(str)
-        if condition:
-            return True
-        return False
+        # condition = name not in df.item_name.values.astype(str)
+        # if condition:
+        #     return True
+        # return False
+
+        # this would avoid extra lines
+        return not self.product_exists(name)
 
     def add_item(self, target: ReadAndWrite, choice: Choice) -> None:
         """Add item to the staging file
