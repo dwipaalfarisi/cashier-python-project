@@ -5,10 +5,6 @@ from database import ReadAndWrite
 class Choice:
     """A class related to user input"""
 
-    def is_string(self, value) -> bool:
-        result = isinstance(value, str)
-        return result
-
     def is_integer(self, value) -> bool:
         result = isinstance(value, int)
         return result
@@ -18,31 +14,34 @@ class Choice:
         return result
 
     def name_input(self) -> str:
-        try:
-            name = str(input("Item Name: "))
-            return name
-        except (ValueError):
-            print("Wrong input")
-        except (Exception):
-            print("Unexpected error. It's us, not you.")
+        while True:
+            try:
+                name = str(input("Item Name: "))
+                if type(name) == str:
+                    return name
+                print("Wrong input. Please enter a valid string.")
+            except ValueError:
+                print("Wrong input. Please enter a valid string.")
 
     def quantity_input(self) -> int:
-        try:
-            quantity = int(input("Quantity: "))
-            return quantity
-        except (ValueError):
-            print("Wrong input")
-        except (Exception):
-            print("Unexpected error. It's us, not you.")
+        while True:
+            try:
+                quantity = int(input("Quantity: "))
+                if type(quantity) == int:
+                    return quantity
+                print("Wrong input. Please enter a valid integer.")
+            except ValueError:
+                print("Wrong input. Please enter a valid integer.")
 
     def price_input(self) -> float:
-        try:
-            price = float(input("Item Price: "))
-            return price
-        except (ValueError):
-            print("Wrong input")
-        except (Exception):
-            print("Unexpected error. It's us, not you.")
+        while True:
+            try:
+                price = float(input("Item Price: "))
+                if type(price) == float:
+                    return price
+                print("Wrong input. Please enter a valid float.")
+            except ValueError:
+                print("Wrong input. Please enter a valid float.")
 
     def choice_add_item(self) -> list[str, int, float]:
         name = self.name_input()
