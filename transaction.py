@@ -6,6 +6,11 @@ class Choice:
     """A class related to user input"""
 
     def name_input(self) -> str:
+        """Name input
+
+        Returns:
+            str: name of the product
+        """
         while True:
             try:
                 name = str(input("Item Name: "))
