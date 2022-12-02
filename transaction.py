@@ -261,8 +261,8 @@ class Transaction:
             return
 
         df = self.read_csv()
-        # Use the name variable to find the item in the transaction table
-        df.loc[df.item_name == name, value_type] = new_value
+        # Use the .eq() method to compare the name variable with the values in the "item_name" column
+        df.loc[df.item_name.eq(name), value_type] = new_value
         self.to_csv(df)
 
     def update_name(self, choice: Choice) -> None:
