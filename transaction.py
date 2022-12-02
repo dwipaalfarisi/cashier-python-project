@@ -1,3 +1,4 @@
+from typing import Type, Any
 import pandas as pd
 from database import ReadAndWrite
 
@@ -5,7 +6,7 @@ from database import ReadAndWrite
 class Choice:
     """A class related to user input"""
 
-    def get_user_input(self, data_type: type) -> any:
+    def get_user_input(self, data_type: Type) -> Any:
         """Get user input and validate it
 
         Args:
