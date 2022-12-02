@@ -243,26 +243,27 @@ class Transaction:
         """
         select.write_header()
 
-    def update_value(
-        self,
-        df: pd.DataFrame,
-        col: str,
-        old_value: str | int | float,
-        new_value: str | int | float,
-    ) -> pd.DataFrame:
-        """Update value of a record in the staging file
+    def update_value(self, value_type: str, value_list) -> None:
+        if value_type == "item_name":
+            # Use the first element of the tuple returned by choice_update_item_name() as the name of the item to update
+            name = value_list[0]
+            new_value = value_list[1]
+        elif value_type == "item_quantity":
+            # Use the first element of the tuple returned by choice_update_item_quantity() as the name of the item to update
+            name = value_list[0]
+            new_value = value_list[1]
+        elif value_type == "item_price":
+            # Use the first element of the tuple returned by choice_update_item_price() as the name of the item to update
+            name = value_list[0]
+            new_value = value_list[1]
+        else:
+            print("Invalid value_type. Please specify 'name', 'quantity', or 'price'.")
+            return
 
-        Args:
-            df (pd.DataFrame): transaction table
-            col (str): column name (item_name or item_quantity or item_price)
-            old_value (str | int | float): value to be replaced (item_name or item_quantity or item_price)
-            new_value (str | int | float): new value (item_name or item_quantity or item_price)
-
-        Returns:
-            pd.DataFrame: transaction table
-        """
-        df[col] = df[col].replace([old_value], new_value)
-        return df
+        df = self.read_csv()
+        # Use the name variable to find the item in the transaction table
+        df.loc[df.item_name == name, value_type] = new_value
+        self.to_csv(df)
 
     def update_name(self, choice: Choice) -> None:
         """Update the name of an item in the staging file
@@ -271,15 +272,13 @@ class Transaction:
             choice (Choice): Instantiate Choice class to access choice_update_item_name (user transaction input)
         """
         df = self.read_csv()
-        name_list = choice.choice_update_item_name()
+        value_list = choice.choice_update_item_name()
+
         not_empty = self.check_product_list(df)
-        product_exists = self.product_exists(name_list[0])
+        product_exists = self.product_exists(value_list[0])
 
         if not_empty and product_exists:
-            df_after = self.update_value(
-                df=df, col="item_name", old_value=name_list[0], new_value=name_list[1]
-            )
-            self.to_csv(df_after)
+            self.update_value("item_name", value_list)
         else:
             print("Item not found. Try to add it first.")
 
@@ -291,15 +290,12 @@ class Transaction:
         """
         df = self.read_csv()
         value_list = choice.choice_update_item_quantity()
+
         not_empty = self.check_product_list(df)
         product_exists = self.product_exists(value_list[0])
 
         if not_empty and product_exists:
-            condition = df.item_name == value_list[0]
-            # replace
-            df.loc[condition, "item_quantity"] = value_list[1]
-            df.item_quantity.astype("int64")
-            self.to_csv(df)
+            self.update_value("item_quantity", value_list)
         else:
             print("Item not found. Try to add it first.")
 
@@ -311,14 +307,12 @@ class Transaction:
         """
         df = self.read_csv()
         value_list = choice.choice_update_item_price()
+
         not_empty = self.check_product_list(df)
         product_exists = self.product_exists(value_list[0])
 
         if not_empty and product_exists:
-            condition = df.item_name == value_list[0]
-            # replace
-            df.loc[condition, "item_price"] = value_list[1]
-            self.to_csv(df)
+            self.update_value("item_price", value_list)
         else:
             print("Item not found. Try to add it first.")
 
