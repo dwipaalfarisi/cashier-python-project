@@ -5,60 +5,76 @@ from database import ReadAndWrite
 class Choice:
     """A class related to user input"""
 
-    def name_input(self) -> str:
-        """Name input
+    def get_user_input(self, data_type: type) -> any:
+        """Get user input and validate it
+
+        Args:
+            data_type (type): expected data type for the input
+
+        Returns:
+            any: user input of the specified data type
+        """
+        # Repeatedly prompt the user for input until they enter a value of the specified data type
+        while True:
+            # Get user input
+            user_input = input()
+
+            # Try to convert the user input to the specified data type
+            try:
+                user_input = data_type(user_input)
+            # If the conversion fails, it means the input is not valid for the specified data type
+            except ValueError:
+                print(f"Wrong input. Please enter a valid {data_type.__name__}.")
+            # If the conversion succeeds, return the converted value
+            else:
+                return user_input
+
+    def get_product_name(self) -> str:
+        """Get product name from user
 
         Returns:
             str: name of the product
         """
-        while True:
-            try:
-                name = str(input("Item Name: "))
-                if type(name) == str:
-                    return name
-                print("Wrong input. Please enter a valid string.")
-            except ValueError:
-                print("Wrong input. Please enter a valid string.")
+        print("Item Name: ")
+        return self.get_user_input(str)
 
-    def quantity_input(self) -> int:
-        while True:
-            try:
-                quantity = int(input("Quantity: "))
-                if type(quantity) == int:
-                    return quantity
-                print("Wrong input. Please enter a valid integer.")
-            except ValueError:
-                print("Wrong input. Please enter a valid integer.")
+    def get_product_quantity(self) -> int:
+        """Get product quantity from user
 
-    def price_input(self) -> float:
-        while True:
-            try:
-                price = float(input("Item Price: "))
-                if type(price) == float:
-                    return price
-                print("Wrong input. Please enter a valid float.")
-            except ValueError:
-                print("Wrong input. Please enter a valid float.")
+        Returns:
+            int: quantity of the product
+        """
+        print("Quantity: ")
+        return self.get_user_input(int)
+
+    def get_product_price(self) -> float:
+        """Get product price from user
+
+        Returns:
+            float: price of the product
+        """
+        print("Item Price: ")
+        return self.get_user_input(float)
 
     def choice_add_item(self) -> list[str, int, float]:
-        name = self.name_input()
-        quantity = self.quantity_input()
-        price = self.price_input()
+        name = self.get_product_name()
+        quantity = self.get_product_quantity()
+        price = self.get_product_price()
         return [name, quantity, price]
 
     def choice_update_item_name(self) -> list[str, str]:
-        name = self.name_input()
-        new_name = self.name_input()
+        name = self.get_product_name()
+        new_name = self.get_product_name()
         return [name, new_name]
 
     def choice_update_item_quantity(self) -> list[str, int]:
-        name = self.name_input()
-        new_quantity = self.quantity_input()
+        name = self.get_product_name()
+        new_quantity = self.get_product_quantity()
         return [name, new_quantity]
 
     def choice_update_item_price(self) -> list[str, float]:
-        name = self.name_input()
-        new_price = self.price_input()
+        name = self.get_product_name()
+        new_price = self.get_product_price()
         return [name, new_price]
 
 
@@ -223,7 +239,8 @@ class Transaction:
             choice (Choice): Instantiate Choice class to access name_input (user transaction input)
         """
         # get the item name from the user using the Choice object
-        name = choice.name_input()
+        print("Item name to be removed: ")
+        name = choice.get_user_input(str)
         # read the transaction table from the staging file
         df = self.read_csv()
         # check if the transaction table is empty
@@ -239,6 +256,7 @@ class Transaction:
         df_after = df[df["item_name"] != name]
         # save the updated transaction table to the staging file
         self.to_csv(df_after)
+        print("Successfully removed.")
 
     def reset_transaction(self, select: ReadAndWrite) -> None:
         """Delete all records from the staging file
@@ -278,6 +296,7 @@ class Transaction:
 
         if not_empty and product_exists:
             self.update_value("item_name", value_list)
+            print("Successfully updated")
         else:
             print("Item not found. Try to add it first.")
 
@@ -295,6 +314,7 @@ class Transaction:
 
         if not_empty and product_exists:
             self.update_value("item_quantity", value_list)
+            print("Successfully updated")
         else:
             print("Item not found. Try to add it first.")
 
@@ -312,6 +332,7 @@ class Transaction:
 
         if not_empty and product_exists:
             self.update_value("item_price", value_list)
+            print("Successfully updated")
         else:
             print("Item not found. Try to add it first.")
 
