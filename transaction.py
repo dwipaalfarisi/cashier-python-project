@@ -56,22 +56,42 @@ class Choice:
         return self.get_user_input(float, "Item Price: ")
 
     def choice_add_item(self) -> list[str, int, float]:
+        """Get information about a product to be added
+
+        Returns:
+            list[str, int, float]: a list containing the product name, quantity, and price
+        """
         name = self.get_product_name()
         quantity = self.get_product_quantity()
         price = self.get_product_price()
         return [name, quantity, price]
 
     def choice_update_item_name(self) -> list[str, str]:
+        """Get the existing product name and the new product name
+
+        Returns:
+            list[str, str]: a list containing the existing product name and the new product name
+        """
         name = self.get_product_name()
         new_name = self.get_product_name()
         return [name, new_name]
 
     def choice_update_item_quantity(self) -> list[str, int]:
+        """Get the existing product name and the new product quantity
+
+        Returns:
+            list[str, int]: a list containing the existing product name and the new product quantity
+        """
         name = self.get_product_name()
         new_quantity = self.get_product_quantity()
         return [name, new_quantity]
 
     def choice_update_item_price(self) -> list[str, float]:
+        """Get the existing product name and the new product price
+
+        Returns:
+            list[str, float]: a list containing the existing product name and the new product price
+        """
         name = self.get_product_name()
         new_price = self.get_product_price()
         return [name, new_price]
@@ -110,12 +130,16 @@ class Transaction:
             print(
                 "The staging file was not found. Please check that the file exists and is in the correct location."
             )
+            return
         except IOError as error:
             print("Error.", error)
+            return
         except UnicodeDecodeError as error:
             print("Error.", error)
+            return
         except Exception as error:
             print("Error", error)
+            return
 
     def to_csv(self, df: pd.DataFrame) -> None:
         """Export transaction to CSV: the staging file
@@ -164,17 +188,17 @@ class Transaction:
         # this would avoid extra lines
         return not self.product_exists(name)
 
-    def add_item(self, target: ReadAndWrite, choice: Choice) -> None:
+    def add_item(self, read_and_write: ReadAndWrite, choice: Choice) -> None:
         """Add item to the staging file
 
         Args:
-            target (ReadAndWrite): Instantiate ReadAndWrite class to access write_values (adding new items to the staging file)
+            read_and_write (ReadAndWrite): Instantiate ReadAndWrite class to access write_values (adding new items to the staging file)
             choice (Choice): Instantiate Choice class to access choice_add_item (user transaction input)
         """
         item = choice.choice_add_item()
         product_not_exists = self.product_not_exists(item[0])
         if product_not_exists:
-            target.write_values(item)
+            read_and_write.write_values(item)
             print("Added")
         else:
             print("No changes made. The item is already exist.")
@@ -228,6 +252,9 @@ class Transaction:
             # 10% discount
             discount_percent = 0.90
             print("Discount 10%")
+        else:
+            discount_percent = 0
+
         return discount_percent
 
     def total_price(self) -> None:
@@ -271,17 +298,17 @@ class Transaction:
         self.to_csv(df_after)
         print("Successfully removed.")
 
-    def reset_transaction(self, select: ReadAndWrite) -> None:
+    def reset_transaction(self, read_and_write: ReadAndWrite) -> None:
         """Delete all records from the staging file
 
         Args:
-            select (ReadAndWrite): instantiate ReadAndWrite to access write_header (rewrite the file)
+            read_and_write (ReadAndWrite): instantiate ReadAndWrite to access write_header (rewrite the file)
         """
-        select.write_header()
+        read_and_write.write_header()
 
-    def update_value(self, value_type: str, value_list) -> None:
+    def update_value(self, col_name: str, value_list: Any) -> pd.DataFrame:
         # Check if the value_type parameter is a valid value
-        if value_type in ("item_name", "item_quantity", "item_price"):
+        if col_name in ("item_name", "item_quantity", "item_price"):
             # Use the first element of the value_list parameter as the name of the item to update
             name = value_list[0]
             # Use the second element of the value_list parameter as the new value for the item
@@ -292,7 +319,7 @@ class Transaction:
 
         df = self.read_csv()
         # Use the .eq() method to compare the name variable with the values in the "item_name" column
-        df.loc[df.item_name.eq(name), value_type] = new_value
+        df.loc[df.item_name.eq(name), col_name] = new_value
         self.to_csv(df)
 
     def update_name(self, choice: Choice) -> None:
@@ -349,7 +376,7 @@ class Transaction:
         else:
             print("Item not found. Try to add it first.")
 
-    def drop_nulls(self, df: pd.DataFrame) -> None:
+    def drop_nulls(self, df: pd.DataFrame) -> pd.DataFrame:
         """Drop null values from the staging file
         Usage:
 
