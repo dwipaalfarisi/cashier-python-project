@@ -1,4 +1,3 @@
-from typing import Type, Any, List, Union
 import pandas as pd
 from database import ReadAndWrite
 
@@ -6,26 +5,56 @@ from database import ReadAndWrite
 class Choice:
     """A class related to user input"""
 
-    def user_input(self, input_type):
+    def name_input(self) -> str:
         while True:
             try:
-                value = input_type(input("Enter value: "))
-                if type(value) == input_type:
-                    return value
-                print(f"Wrong input. Please enter a valid {input_type.__name__}.")
+                name = str(input("Item Name: "))
+                if type(name) == str:
+                    return name
+                print("Wrong input. Please enter a valid string.")
             except ValueError:
-                print(f"Wrong input. Please enter a valid {input_type.__name__}.")
+                print("Wrong input. Please enter a valid string.")
 
-    def choice_input(self, input_type):
-        name = self.user_input(str)
-        value = self.user_input(input_type)
-        return [name, value]
+    def quantity_input(self) -> int:
+        while True:
+            try:
+                quantity = int(input("Quantity: "))
+                if type(quantity) == int:
+                    return quantity
+                print("Wrong input. Please enter a valid integer.")
+            except ValueError:
+                print("Wrong input. Please enter a valid integer.")
 
-    def choice_add_item(self):
-        name = self.choice_input(str)
-        quantity = self.choice_input(int)
-        price = self.choice_input(float)
+    def price_input(self) -> float:
+        while True:
+            try:
+                price = float(input("Item Price: "))
+                if type(price) == float:
+                    return price
+                print("Wrong input. Please enter a valid float.")
+            except ValueError:
+                print("Wrong input. Please enter a valid float.")
+
+    def choice_add_item(self) -> list[str, int, float]:
+        name = self.name_input()
+        quantity = self.quantity_input()
+        price = self.price_input()
         return [name, quantity, price]
+
+    def choice_update_item_name(self) -> list[str, str]:
+        name = self.name_input()
+        new_name = self.name_input()
+        return [name, new_name]
+
+    def choice_update_item_quantity(self) -> list[str, int]:
+        name = self.name_input()
+        new_quantity = self.quantity_input()
+        return [name, new_quantity]
+
+    def choice_update_item_price(self) -> list[str, float]:
+        name = self.name_input()
+        new_price = self.price_input()
+        return [name, new_price]
 
 
 class Transaction:
@@ -237,7 +266,7 @@ class Transaction:
             choice (Choice): Instantiate Choice class to access choice_update_item_name (user transaction input)
         """
         df = self.read_csv()
-        value_list = choice.choice_input(str)
+        value_list = choice.choice_update_item_name()
 
         not_empty = self.check_product_list(df)
         product_exists = self.product_exists(value_list[0])
@@ -254,7 +283,7 @@ class Transaction:
             choice (Choice): Instantiate Choice class to access choice_update_item_quantity (user transaction input)
         """
         df = self.read_csv()
-        value_list = choice.choice_input(int)
+        value_list = choice.choice_update_item_quantity()
 
         not_empty = self.check_product_list(df)
         product_exists = self.product_exists(value_list[0])
@@ -271,7 +300,7 @@ class Transaction:
             choice (Choice): Instantiate Choice class to access choice_update_item_price (user transaction input)
         """
         df = self.read_csv()
-        value_list = choice.choice_input(float)
+        value_list = choice.choice_update_item_price()
 
         not_empty = self.check_product_list(df)
         product_exists = self.product_exists(value_list[0])
