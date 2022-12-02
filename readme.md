@@ -1,11 +1,11 @@
-The project consists of three main files: `transaction.py`, `database.py`, and `main.py`. 
-1. `transaction.py`, contains two classes: 
-   - `Choice`: related to user input ;
-   - `Transaction`: use case controlling the core rule)
-2. `database.py`, contains two classes:
-   - `ReadAndWrite`: read and write related to the transaction file (.csv); 
-   - `SendToPostgreSQL`: database adapter to PostgreSQL 
-3. `main.py`: mainly used to confirm the transaction, instantiating classes, and controlling the user input.
+The project consists of three main files: transaction.py, database.py, and main.py. 
+1. **transaction.py**, contains two classes: 
+   - Choice: related to user input ;
+   - Transaction: use case controlling the core rule)
+2. **database.py**, contains two classes:
+   - ReadAndWrite: read and write related to the transaction file (.csv); 
+   - SendToPostgreSQL: database adapter to PostgreSQL 
+3. **main.py**: mainly used to confirm the transaction, instantiating classes, and controlling the user input.
 <hr>
 
 ## Library
@@ -24,29 +24,29 @@ The project consists of three main files: `transaction.py`, `database.py`, and `
 
 ## 1. transaction.py
 ### 1.1. Choice class
-The `Choice` class is a utility class that provides methods for getting user input and validating it. The `Choice` class has several methods that allow the user to enter different types of input, such as a string, integer, or float. These methods ensure that the input is of the correct data type and handle any errors that may occur during the conversion process.
+The Choice class is a utility class that provides methods for getting user input and validating it. The Choice class has several methods that allow the user to enter different types of input, such as a string, integer, or float. These methods ensure that the input is of the correct data type and handle any errors that may occur during the conversion process.
 
-The `Choice` class also has several methods for specific types of user input, such as product names, quantities, and prices. These methods provide a more user-friendly interface for entering these values, by prompting the user for the specific type of input and handling any errors that may occur.
+The Choice class also has several methods for specific types of user input, such as product names, quantities, and prices. These methods provide a more user-friendly interface for entering these values, by prompting the user for the specific type of input and handling any errors that may occur.
 
-In summary, the `Choice` class provides a convenient and user-friendly way of getting and validating user input for the transaction management system.
+In summary, the Choice class provides a convenient and user-friendly way of getting and validating user input for the transaction management system.
 
-The `Choice` class defines methods for prompting the user for input and returning the input as a specific data type. These methods include:
+The Choice class defines methods for prompting the user for input and returning the input as a specific data type. These methods include:
 
-- `get_user_input(self, data_type: Type, prompt: str) -> Any`: This method prompts the user for input and validates that the input is of the specified data type. If the input is not valid, the method displays an error message and prompts the user for input again.
+- **get_user_input()**: This method prompts the user for input and validates that the input is of the specified data type. If the input is not valid, the method displays an error message and prompts the user for input again.
 
-- `get_product_name(self) -> str`: This method prompts the user for a product name and returns the user's input as a string.
+- **get_product_name()**: This method prompts the user for a product name and returns the user's input as a string.
 
-- `get_product_quantity(self) -> int`: This method prompts the user for a product quantity and returns the user's input as an integer.
+- **get_product_quantity()**: This method prompts the user for a product quantity and returns the user's input as an integer.
 
-- `get_product_price(self) -> float`: This method prompts the user for a product price and returns the user's input as a float.
+- **get_product_price()**: This method prompts the user for a product price and returns the user's input as a float.
 
-- `choice_add_item(self) -> list[str, int, float]`: This method prompts the user for a product name, quantity, and price, and returns a list containing the user's input for each of these values.
+- **choice_add_item()**: This method prompts the user for a product name, quantity, and price, and returns a list containing the user's input for each of these values.
 
-- `choice_update_item_name(self) -> list[str, str]`: This method prompts the user for a product name and a new product name, and returns a list containing the user's input for each of these values.
+- **choice_update_item_name()**: This method prompts the user for a product name and a new product name, and returns a list containing the user's input for each of these values.
 
-- `choice_update_item_quantity(self) -> list[str, int]`: This method prompts the user for a product name and a new product quantity, and returns a list containing the user's input for each of these values.
+- **choice_update_item_quantity()**: This method prompts the user for a product name and a new product quantity, and returns a list containing the user's input for each of these values.
 
-- `choice_update_item_price(self) -> list[str, float]`: This method prompts the user for a product name and a new price, and returns a list containing the user's input for each of these values.
+- **choice_update_item_price()**: This method prompts the user for a product name and a new price, and returns a list containing the user's input for each of these values.
 
 
 ### 1.2. Transaction class
