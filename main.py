@@ -97,6 +97,9 @@ def main_menu() -> None:
     if select == "10":
         transact_123.reset_transaction(ReadAndWrite())
         exit_application()
+
+    # Check if the selected_function variable is None, which indicates that the user entered an invalid menu option
+    # If the selected_function is None, print an error message and return without calling the selected function
     elif not selected_function:
         print("Invalid menu option. Please try again.")
 
