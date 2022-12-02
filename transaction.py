@@ -317,8 +317,4 @@ class Transaction:
         Args:
             df (pd.DataFrame): transaction table
         """
-        df = df.dropna()
-        # copy to prevent float dtype on quantity
-        df_after = df.copy()
-        df_after.item_quantity = df.item_quantity.astype("int64")
-        self.to_csv(df_after)
+        return df.dropna()
