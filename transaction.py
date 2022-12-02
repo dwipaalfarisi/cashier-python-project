@@ -178,15 +178,19 @@ class Transaction:
         """
         total = abs(total_payment)
         if 0 < total <= 200_000:
+            # no discount
             discount_percent = 1
             print("No Discount")
         elif 200_000 < total <= 300_000:
+            # 5% discount
             discount_percent = 0.95
             print("Discount 5%")
         elif 300_000 < total <= 500_000:
+            # 8% discount
             discount_percent = 0.92
             print("Discount 8%")
         elif total > 500_000:
+            # 10% discount
             discount_percent = 0.90
             print("Discount 10%")
         return discount_percent
