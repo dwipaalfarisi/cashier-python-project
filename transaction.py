@@ -101,12 +101,23 @@ class Transaction:
         Returns:
             pd.DataFrame: transaction table
         """
-        df = pd.read_csv(
-            self.file_path,
-            encoding="utf-8",
-            dtype={"item_name": str, "quantity": int, "price": float},
-        )
-        return df
+        try:
+            df = pd.read_csv(
+                self.file_path,
+                encoding="utf-8",
+                dtype={"item_name": str, "quantity": int, "price": float},
+            )
+            return df
+        except FileNotFoundError:
+            print(
+                "The staging file was not found. Please check that the file exists and is in the correct location."
+            )
+        except IOError as error:
+            print("Error.", error)
+        except UnicodeDecodeError as error:
+            print("Error.", error)
+        except Exception as error:
+            print("Error", error)
 
     def to_csv(self, df: pd.DataFrame) -> None:
         """Export transaction to CSV: the staging file
