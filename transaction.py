@@ -101,7 +101,11 @@ class Transaction:
         Returns:
             pd.DataFrame: transaction table
         """
-        df = pd.read_csv(self.file_path, encoding="utf-8")
+        df = pd.read_csv(
+            self.file_path,
+            encoding="utf-8",
+            dtype={"item_name": str, "quantity": int, "price": float},
+        )
         return df
 
     def to_csv(self, df: pd.DataFrame) -> None:
