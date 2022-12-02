@@ -6,7 +6,7 @@ from database import ReadAndWrite
 class Choice:
     """A class related to user input"""
 
-    def get_user_input(self, data_type: Type) -> Any:
+    def get_user_input(self, data_type: Type, prompt: str) -> Any:
         """Get user input and validate it
 
         Args:
@@ -18,7 +18,7 @@ class Choice:
         # Repeatedly prompt the user for input until they enter a value of the specified data type
         while True:
             # Get user input
-            user_input = input()
+            user_input = input(prompt)
 
             # Try to convert the user input to the specified data type
             try:
@@ -36,8 +36,7 @@ class Choice:
         Returns:
             str: name of the product
         """
-        print("Item Name: ")
-        return self.get_user_input(str)
+        return self.get_user_input(str, "Item Name: ")
 
     def get_product_quantity(self) -> int:
         """Get product quantity from user
@@ -45,8 +44,7 @@ class Choice:
         Returns:
             int: quantity of the product
         """
-        print("Quantity: ")
-        return self.get_user_input(int)
+        return self.get_user_input(int, "Quantity: ")
 
     def get_product_price(self) -> float:
         """Get product price from user
@@ -55,7 +53,7 @@ class Choice:
             float: price of the product
         """
         print("Item Price: ")
-        return self.get_user_input(float)
+        return self.get_user_input(float, "Item Price: ")
 
     def choice_add_item(self) -> list[str, int, float]:
         name = self.get_product_name()
@@ -255,8 +253,7 @@ class Transaction:
             choice (Choice): Instantiate Choice class to access name_input (user transaction input)
         """
         # get the item name from the user using the Choice object
-        print("Item name to be removed: ")
-        name = choice.get_user_input(str)
+        name = choice.get_user_input(str, "Item name to be removed: ")
         # read the transaction table from the staging file
         df = self.read_csv()
         # check if the transaction table is empty
