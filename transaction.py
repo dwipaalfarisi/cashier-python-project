@@ -217,17 +217,23 @@ class Transaction:
         Args:
             choice (Choice): Instantiate Choice class to access name_input (user transaction input)
         """
+        # get the item name from the user using the Choice object
+        name = choice.name_input()
+        # read the transaction table from the staging file
         df = self.read_csv()
-        not_empty = self.check_product_list(df)
-        if not_empty:
-            name = choice.name_input()
-            condition = df["item_name"] != str(name)
-            df_after = df[condition]
-            self.to_csv(df_after)
-        else:
-            print(
-                "There's nothing to remove. Either it's empty or the item name isn't in the basket."
-            )
+        # check if the transaction table is empty
+        if df.shape[0] == 0:
+            print("The transaction table is empty. There are no items to remove.")
+            return
+
+        # check if the item name exists in the transaction table
+        if self.product_not_exists(name):
+            print(f"Item '{name}' does not exist in the transaction table.")
+            return
+        # create a new DataFrame with the rows that do not have the item name being removed
+        df_after = df[df["item_name"] != name]
+        # save the updated transaction table to the staging file
+        self.to_csv(df_after)
 
     def reset_transaction(self, select: ReadAndWrite) -> None:
         """Delete all records from the staging file
