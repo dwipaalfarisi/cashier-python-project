@@ -244,17 +244,11 @@ class Transaction:
         select.write_header()
 
     def update_value(self, value_type: str, value_list) -> None:
-        if value_type == "item_name":
-            # Use the first element of the tuple returned by choice_update_item_name() as the name of the item to update
+        # Check if the value_type parameter is a valid value
+        if value_type in ("item_name", "item_quantity", "item_price"):
+            # Use the first element of the value_list parameter as the name of the item to update
             name = value_list[0]
-            new_value = value_list[1]
-        elif value_type == "item_quantity":
-            # Use the first element of the tuple returned by choice_update_item_quantity() as the name of the item to update
-            name = value_list[0]
-            new_value = value_list[1]
-        elif value_type == "item_price":
-            # Use the first element of the tuple returned by choice_update_item_price() as the name of the item to update
-            name = value_list[0]
+            # Use the second element of the value_list parameter as the new value for the item
             new_value = value_list[1]
         else:
             print("Invalid value_type. Please specify 'name', 'quantity', or 'price'.")
