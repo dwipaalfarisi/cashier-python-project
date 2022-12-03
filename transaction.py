@@ -52,7 +52,6 @@ class Choice:
         Returns:
             float: price of the product
         """
-        print("Item Price: ")
         return self.get_user_input(float, "Item Price: ")
 
     def choice_add_item(self) -> list[str, int, float]:
