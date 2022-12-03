@@ -39,13 +39,13 @@ The project consists of three main files: transaction.py, database.py, and main.
 <hr>
 
 ## Installation
-1. <p><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository" target="_blank" rel="noopener noreferrer">Clone the repository</a></p>
-2. <p><a href="https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/" target="_blank" rel="noopener noreferrer">Create an environment</a></p>
-3. <p>Install the required packages, or just use `pip install -r requirements.txt`</p>
-4. <p>Create db_variables.py to store the database connection variables (USER, PASSWORD, HOST, PORT, DATABASE)</p>
-5. <p>Create a database and a table: use `create_db.sql`</p>
-6. <p>Run `py -m create-stage-file.py` to create a staging file</p>
-7. <p>Run app: `py main.py`</p>
+1. <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository" target="_blank" rel="noopener noreferrer">Clone the repository</a>
+2. <a href="https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/" target="_blank" rel="noopener noreferrer">Create an environment</a>
+3. Install the required packages, or just use `pip install -r requirements.txt`
+4. Create db_variables.py to store the database connection variables (USER, PASSWORD, HOST, PORT, DATABASE)
+5. Create a database and a table: use `create_db.sql`
+6. Run `py -m create-stage-file.py` to create a staging file
+7. Run app: `py main.py`
 
 <hr>
 
