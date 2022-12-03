@@ -159,10 +159,8 @@ class Transaction:
             bool: True if the product name is already in the staging file, False otherwise
         """
         df = self.read_csv()
-        # this would cause FutureWarning
-        # condition = name in df.item_name.values
 
-        # this is more readable and would not cause FutureWarning as it won't do operands comparison
+        # check if the name is already in the staging file
         return df.item_name.eq(name).any()
 
     def product_not_exists(self, name: str) -> bool:
@@ -175,16 +173,7 @@ class Transaction:
         Returns:
             bool: True if the product name not in the staging file, False otherwise
         """
-        # df = self.read_csv()
-
-        # NOTE:  FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-        # not in expect the left and right operands to be the same type. Using astype would eliminate this issue
-        # condition = name not in df.item_name.values.astype(str)
-        # if condition:
-        #     return True
-        # return False
-
-        # this would avoid extra lines
+        # check if the name is not already in the staging file
         return not self.product_exists(name)
 
     def add_item(self, read_and_write: ReadAndWrite, choice: Choice) -> None:
