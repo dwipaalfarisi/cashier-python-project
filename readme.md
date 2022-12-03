@@ -90,17 +90,11 @@ There are several helper methods in the Transaction class. These methods perform
 #### 1.2.2 Primary Methods
 The primary methods in the Transaction class are the methods that define the core functionality of the class. These methods are the main methods that allow you to perform actions related to transactions, such as adding, updating, or removing items from a transaction. Some examples of primary methods in the Transaction class are:
 
-- `add_item(self, read_and_write: ReadAndWrite, choice: Choice) -> None`: This method adds a new item to the transaction. It prompts the user for the product name, quantity, and price, and then passes these values to the `choice.choice_add_item` method to get the user's input. It then adds the item to the transaction file using the `read_and_write.write_values` method.
+- **add_item()**: This method adds a new item to the transaction. It prompts the user for the product name, quantity, and price, and then passes these values to the `choice.choice_add_item` method to get the user's input. It then adds the item to the transaction file using the `read_and_write.write_values` method.
 
-- `update_value(self, col_name: str, value_list: Any) -> pd.DataFrame`: This method allows you to update a value in a transaction. It takes three arguments: the name of the item to be updated, the name of the column to be updated, and the new value for the column. It then updates the value in the transaction and returns the updated transaction. This is used to replace the new values in `update_name`, `update_quantity`, and `update_price`.  
+- **update_value()**: This method allows to update a value in a transaction. It takes three arguments: the name of the item to be updated, the name of the column to be updated, and the new value for the column. It then updates the value in the transaction and returns the updated transaction. This is used to replace the new values in `update_name`, `update_quantity`, and `update_price`.  
 
-- `remove_item(self, choice: Choice) -> None`: This method removes an item from the transaction. It prompts the user for the product name and then uses the `choice.get_product_name` method to get the user's input. It then removes the item from the transaction file using the `remove_item` method.  
-
-
-The `ReadAndWrite` class defines methods for reading and writing CSV files. These methods include:
-
-- `write_header`: writes a header row to a CSV file. This method is used to create a new CSV file if one does not already exist.
-- `write_values`: writes one or more rows of data to a CSV file. This method is used to add new items to the transaction.
+- **remove_item()**: This method removes an item from the transaction. It prompts the user for the product name and then uses the `choice.get_product_name` method to get the user's input. It then removes the item from the transaction file using the `remove_item` method.  
 <hr>
 
 ## 2. database.py
@@ -160,3 +154,5 @@ python -c "from main import main_menu; main_menu()"
 ```
 This will execute the `main_menu` function and display the menu of options for managing transactions. You can then follow the prompts to select an option and perform the corresponding action.
 
+## Flowchart
+<img src="./img/flow1.jpg" alt="Flowchart" height=800>
