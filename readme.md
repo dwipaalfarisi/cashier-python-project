@@ -39,8 +39,8 @@ The project consists of three main files: transaction.py, database.py, and main.
 <hr>
 
 ## Installation
-1. [Clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-2. [Create an environment](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/)
+1. <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository" target="_blank">Clone the repository</a>
+2. <a href="https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/" target="_blank">Create an environment</a>
 3. Install the required packages, or just use `pip install -r requirements.txt`
 4. Create db_variables.py to store the database connection variables (USER, PASSWORD, HOST, PORT, DATABASE)
 5. Create a database and a table: use `create_db.sql`
