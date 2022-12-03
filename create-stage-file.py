@@ -1,4 +1,4 @@
-# to create staging file
+"""to create staging file"""
 from database import ReadAndWrite
 
 
