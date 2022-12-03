@@ -2,8 +2,10 @@
 ## Table of Contents
 - [Project – Cashier CLI Based App](#project--cashier-cli-based-app)
   - [Table of Contents](#table-of-contents)
+  - [Background](#background)
   - [Library \& Tools](#library--tools)
   - [Installation](#installation)
+  - [Flowchart](#flowchart)
   - [Overview](#overview)
     - [1. transaction.py](#1-transactionpy)
       - [1.1. Choice class](#11-choice-class)
@@ -14,13 +16,14 @@
       - [2.1. ReadAndWrite class](#21-readandwrite-class)
       - [2.2. SendToPostgreSQL class](#22-sendtopostgresql-class)
       - [3. main.py](#3-mainpy)
-  - [Flowchart](#flowchart)
 
+## Background
+This is a CLI based application that serves as a cashier to track transactions. It is meant to be used as a self service for customers to use when they are about to pay their orders.    
 
 The project consists of three main files: transaction.py, database.py, and main.py. 
 1. **transaction.py**, contains two classes: 
    - Choice: related to user input ;
-   - Transaction: use case controlling the core rule)
+   - Transaction: use case controlling the core rule
 2. **database.py**, contains two classes:
    - ReadAndWrite: read and write related to the transaction file (.csv); 
    - SendToPostgreSQL: database adapter to PostgreSQL 
@@ -46,8 +49,16 @@ The project consists of three main files: transaction.py, database.py, and main.
 
 <hr>
 
-## Overview
+## Flowchart
+<img src="./img/flow1.jpg" alt="Flowchart" height=800>
 
+First, start the app by running `py main.py`. This will create the transaction object and will prompts the user for an input on what task the user wants to execute. The available commands are: add new item, update item properties, remove item, reset transaction, check order, calculate the total price, check (display) the order, confirm, and exit.<br>
+If the command is related to the transaction, it will update the changes or write the entries to the staging file. *More on the details of each command later*.
+After each command finishes, it will return back to the main menu and ask the user for a new task. To display the order, select check order and total price to show the total bill.<br>
+Each transaction need to be confirmed to finish. To exit the app, select "10" and this will automatically reset the transaction and load the data from the staging file to PostgreSQL. <br>     
+<hr>
+
+## Overview
 ### 1. transaction.py
 #### 1.1. Choice class
 The Choice class is a utility class that provides methods for getting user input and validating it. The Choice class has several methods that allow the user to enter different types of input, such as a string, integer, or float. These methods ensure that the input is of the correct data type and handle any errors that may occur during the conversion process.
@@ -180,5 +191,3 @@ python -c "from main import main_menu; main_menu()"
 ```
 This will execute the `main_menu` function and display the menu of options for managing transactions. 
 
-## Flowchart
-<img src="./img/flow1.jpg" alt="Flowchart" height=800>
