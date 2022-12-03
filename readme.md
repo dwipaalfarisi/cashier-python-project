@@ -91,7 +91,6 @@ The Choice class defines methods for prompting the user for input and returning 
 The Transaction class contains methods that are related to a transaction. This class has the following attributes:
 
 - `file_path`: This is the file path for the transaction file. It is used by the methods that refer to the transaction file.
-The Transaction class has the following methods:
 
 - `__init__(self)`: This is the constructor method that is called when a Transaction object is instantiated. It sets the `file_path` attribute to the path of the transaction file.
 
