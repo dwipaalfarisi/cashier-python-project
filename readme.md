@@ -178,7 +178,7 @@ Alternatively, you can also run the code by calling the `main_menu` function dir
 ```
 python -c "from main import main_menu; main_menu()"
 ```
-This will execute the `main_menu` function and display the menu of options for managing transactions. You- [Project – Cashier CLI Based App]o select an option and perform the corresponding action.
+This will execute the `main_menu` function and display the menu of options for managing transactions. 
 
 ## Flowchart
 <img src="./img/flow1.jpg" alt="Flowchart" height=800>
