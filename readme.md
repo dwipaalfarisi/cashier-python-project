@@ -1,3 +1,22 @@
+# Project – Cashier CLI Based App
+## Table of Contents
+- [Project – Cashier CLI Based App](#project--cashier-cli-based-app)
+  - [Table of Contents](#table-of-contents)
+  - [Library \& Tools](#library--tools)
+  - [Installation](#installation)
+  - [Overview](#overview)
+    - [1. transaction.py](#1-transactionpy)
+      - [1.1. Choice class](#11-choice-class)
+      - [1.2. Transaction class](#12-transaction-class)
+        - [1.2.1 Helper Methods:](#121-helper-methods)
+        - [1.2.2 Primary Methods](#122-primary-methods)
+    - [2. database.py](#2-databasepy)
+      - [2.1. ReadAndWrite class](#21-readandwrite-class)
+      - [2.2. SendToPostgreSQL class](#22-sendtopostgresql-class)
+      - [3. main.py](#3-mainpy)
+  - [Flowchart](#flowchart)
+
+
 The project consists of three main files: transaction.py, database.py, and main.py. 
 1. **transaction.py**, contains two classes: 
    - Choice: related to user input ;
@@ -8,22 +27,29 @@ The project consists of three main files: transaction.py, database.py, and main.
 3. **main.py**: mainly used to confirm the transaction, instantiating classes, and controlling the user input.
 <hr>
 
-## Library
+## Library & Tools
 1. Necessary:
    - pandas
    - psycopg2-binary
-2. Optional:
-   - black
-   - pylint
+2. Python 3.10.5
+3. Database: PostgreSQL
 <hr>
 
-## Python version
-- **Python 3.10.5**
-  
+## Installation
+1. Clone the repository
+2. Create an environment
+3. Install the required packages, or just use `pip install -r requirements.txt`
+4. Create db_variables.py to store the database connection variables (USER, PASSWORD, HOST, PORT, DATABASE)
+5. Create a database and a table: use `create_db.sql`
+6. Run `py -m create-stage-file.py` to create a staging file
+7. Run app: `py main.py`  
+
 <hr>
 
-## 1. transaction.py
-### 1.1. Choice class
+## Overview
+
+### 1. transaction.py
+#### 1.1. Choice class
 The Choice class is a utility class that provides methods for getting user input and validating it. The Choice class has several methods that allow the user to enter different types of input, such as a string, integer, or float. These methods ensure that the input is of the correct data type and handle any errors that may occur during the conversion process.
 
 The Choice class also has several methods for specific types of user input, such as product names, quantities, and prices. These methods provide a more user-friendly interface for entering these values, by prompting the user for the specific type of input and handling any errors that may occur.
@@ -49,7 +75,7 @@ The Choice class defines methods for prompting the user for input and returning 
 - **choice_update_item_price()**: This method prompts the user for a product name and a new price, and returns a list containing the user's input for each of these values.
 
 
-### 1.2. Transaction class
+#### 1.2. Transaction class
 
 The Transaction class contains methods that are related to a transaction. This class has the following attributes:
 
@@ -58,7 +84,7 @@ The Transaction class has the following methods:
 
 - `__init__(self)`: This is the constructor method that is called when a Transaction object is instantiated. It sets the `file_path` attribute to the path of the transaction file.
 
-#### 1.2.1 Helper Methods:
+##### 1.2.1 Helper Methods:
 There are several helper methods in the Transaction class. These methods perform specific tasks that are used by other methods in the class. These helper methods are used by other methods in the Transaction class to perform specific tasks related to transactions, such as checking for the existence of a product, reading the transaction from a file, or exporting the transaction to a file. Some examples of helper methods in the Transaction class are:
 
 - **read_csv()**: This method reads the transaction file and returns the transaction data as a Pandas DataFrame object.
@@ -87,7 +113,7 @@ There are several helper methods in the Transaction class. These methods perform
 
 - **total_price()**: This method calculates the total price of the current transaction. It uses the self.read_csv method to read the transaction file and then calculates the total price of all items in the transaction. It then prints the total price to the user.
 
-#### 1.2.2 Primary Methods
+##### 1.2.2 Primary Methods
 The primary methods in the Transaction class are the methods that define the core functionality of the class. These methods are the main methods that allow you to perform actions related to transactions, such as adding, updating, or removing items from a transaction. Some examples of primary methods in the Transaction class are:
 
 - **add_item()**: This method adds a new item to the transaction. It prompts the user for the product name, quantity, and price, and then passes these values to the `choice.choice_add_item` method to get the user's input. It then adds the item to the transaction file using the `read_and_write.write_values` method.
@@ -97,18 +123,18 @@ The primary methods in the Transaction class are the methods that define the cor
 - **remove_item()**: This method removes an item from the transaction. It prompts the user for the product name and then uses the `choice.get_product_name` method to get the user's input. It then removes the item from the transaction file using the `remove_item` method.  
 <hr>
 
-## 2. database.py
+### 2. database.py
 
 The `database.py` file is a module that contains code for interacting with a database. This code may define classes and methods that make it easier to connect to a database, execute SQL queries, and handle errors that may be raised by the database driver. The exact details of what the code does will depend on the implementation, but it is designed to provide a convenient and abstracted way to access and manipulate data in a database from within the code. By using the classes and methods defined in the `database.py` file, you can interact with the database without having to worry about the details of establishing connections, executing queries, and handling errors. In this project, the database adapter is using psycopg2 connected to PostgreSQL. The database can be changed depending on the requirements.
 
-### 2.1. ReadAndWrite class
+#### 2.1. ReadAndWrite class
 ReadAndWrite class that defines methods for reading from and writing to a CSV file. It has two methods: `write_header` and `write_values`. The `write_header` method creates a new file if one does not exist and writes the CSV header to the file. The `write_values` method appends data to the file as a new row. Both methods include error-handling code to handle potential exceptions that may be raised during these operations, such as a *FileNotFoundError* if the file does not exist or a *PermissionError* if the program does not have permission to write to the file. The ReadAndWrite class provides a convenient way to read from and write to a CSV file within your code. It abstracts the details of opening and closing the file, writing data to it, and handling errors, allowing you to focus on the data itself.
 
-### 2.2. SendToPostgreSQL class
+#### 2.2. SendToPostgreSQL class
 SendToPostgreSQL class defines a method for loading data from a CSV file into a PostgreSQL database. The `csv_to_postgresql` method establishes a connection to the database using the `psycopg2` library, creates a cursor, and uses the `copy_from` method to copy the data from the file into the database. This method also includes error-handling code to handle exceptions that may be raised during these operations, such as a `psycopg2`.Error if there is a problem with the connection or a *FileNotFoundError* if the file does not exist. The *SendToDatabasePostgreSQL* class provides a convenient way to transfer data from a CSV file to a PostgreSQL database within your code. It abstracts the details of establishing connections, executing SQL queries, and handling errors, allowing you to focus on the data itself.
 <hr>
 
-### 3. main.py
+#### 3. main.py
 The `main.py` file is the entry point for the application. It defines the `main_menu` function, which provides a menu of options for managing transactions. When the user selects an option, the `main_menu` function calls the corresponding method from the Transaction or ReadAndWrite classes to perform the desired action. For example, if the user selects **option 1**, the `main_menu` function will call the `add_item` method of the Transaction class to add a new item to the current transaction. To exit the program, the user must select option 10 from the main menu. This will call the `reset_transaction` method of the `Transaction` class to reset the current transaction, and then call the `exit_application` function from the sys module to exit the program.
 
 The `main_menu` function also includes error-handling code to validate the user's input and handle any exceptions that may be raised by the selected function. For example, if the user enters an invalid menu option or if there is a problem loading data from the CSV file into the PostgreSQL database, the `main_menu` function will display an error message and return to the main menu without performing the selected operation.
@@ -152,7 +178,7 @@ Alternatively, you can also run the code by calling the `main_menu` function dir
 ```
 python -c "from main import main_menu; main_menu()"
 ```
-This will execute the `main_menu` function and display the menu of options for managing transactions. You can then follow the prompts to select an option and perform the corresponding action.
+This will execute the `main_menu` function and display the menu of options for managing transactions. You- [Project – Cashier CLI Based App]o select an option and perform the corresponding action.
 
 ## Flowchart
 <img src="./img/flow1.jpg" alt="Flowchart" height=800>
