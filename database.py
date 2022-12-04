@@ -16,7 +16,7 @@ class ReadAndWrite:
             reset_transaction and create the staging file
         """
         file_path = self.file_path
-        header = ["item_name", "item_quantity", "item_price"]
+        header = ["transaction_id", "item_name", "item_quantity", "item_price"]
         try:
             with open(file_path, "w+", encoding="utf-8", newline="") as file_object:
                 dict_writer = DictWriter(file_object, fieldnames=header)
@@ -30,12 +30,12 @@ class ReadAndWrite:
         except Exception as error:
             print(f"An unexpected error occurred: {error}")
 
-    def write_values(self, row_values: list[str, int, float]):
+    def write_values(self, row_values: list[int, str, int, float]):
         """Write the transaction records
         Usage:
             add_item
         Args:
-            row_values (list[str, int, float]): transaction records (item_name, item_quantity, item_price)
+            row_values (list[int, str, int, float]): transaction records (transaction_history, item_name, item_quantity, item_price)
         """
         file_path = self.file_path
         try:
@@ -94,7 +94,12 @@ class SendToDatabasePostgreSQL:
                     file_object,
                     "transaction_history",
                     sep=",",
-                    columns=["item_name", "item_quantity", "item_price"],
+                    columns=[
+                        "transaction_id",
+                        "item_name",
+                        "item_quantity",
+                        "item_price",
+                    ],
                 )
 
             connection.commit()

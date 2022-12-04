@@ -122,7 +122,7 @@ class Transaction:
             df = pd.read_csv(
                 self.file_path,
                 encoding="utf-8",
-                dtype={"item_name": str, "quantity": int, "price": float},
+                dtype={"transaction_id": int, "item_name": str, "quantity": int, "price": float},
             )
             return df
         except FileNotFoundError:
@@ -176,7 +176,7 @@ class Transaction:
         # check if the name is not already in the staging file
         return not self.product_exists(name)
 
-    def add_item(self, read_and_write: ReadAndWrite, choice: Choice) -> None:
+    def add_item(self, read_and_write: ReadAndWrite, choice: Choice, transaction_id) -> None:
         """Add item to the staging file
 
         Args:
@@ -184,6 +184,7 @@ class Transaction:
             choice (Choice): Instantiate Choice class to access choice_add_item (user transaction input)
         """
         item = choice.choice_add_item()
+        item.insert(0, transaction_id)
         product_not_exists = self.product_not_exists(item[0])
         if product_not_exists:
             read_and_write.write_values(item)

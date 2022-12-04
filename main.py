@@ -1,7 +1,10 @@
 # Exit the app using main_menu with input 11
 from sys import exit as exit_application
+import time
 from transaction import Transaction, Choice
 from database import ReadAndWrite, SendToDatabasePostgreSQL
+
+transaction_id = int(time.time())
 
 
 def create_transaction() -> Transaction:
@@ -107,7 +110,7 @@ def main_menu() -> None:
     else:
         if select in ("1"):
             # Menu option 1 requires the ReadAndWrite and Choice classes as parameters
-            selected_function(ReadAndWrite(), Choice())
+            selected_function(ReadAndWrite(), Choice(), transaction_id)
             main_menu()
         elif select in ("6"):
             # Menu options 6 requires the ReadAndWrite class as a parameter
