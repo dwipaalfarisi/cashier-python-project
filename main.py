@@ -4,6 +4,7 @@ import time
 from transaction import Transaction, Choice
 from database import ReadAndWrite, SendToDatabasePostgreSQL
 
+# create a UNIX transaction id for each batch of transactions
 transaction_id = int(time.time())
 
 
